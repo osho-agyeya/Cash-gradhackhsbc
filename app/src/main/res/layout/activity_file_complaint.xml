@@ -4,11 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FileComplaintActivity">
+    tools:context=".FileComplaintActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="Call"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="Email"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="File complaint activity"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/helpOption"
+        android:text="Your input here"
+        android:gravity="center"
+        android:textSize="40sp"
+        />
+
+    <ImageView
+        android:id="@+id/imageViewForMic2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:onClick="getSpeechInput"
+        app:srcCompat="@android:drawable/ic_btn_speak_now"
+        />
+
+
 
 </LinearLayout>

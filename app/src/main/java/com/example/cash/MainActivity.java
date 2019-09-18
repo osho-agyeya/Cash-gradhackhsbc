@@ -19,7 +19,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private TextView inputReceived;
-    private Button buttonFileComplaint;
     private TextToSpeech optionChosen;
 
     @Override
