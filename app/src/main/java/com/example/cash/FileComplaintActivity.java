@@ -89,7 +89,7 @@ public class FileComplaintActivity extends AppCompatActivity {
 
                                 break;
                             case "email":
-
+                                intent=new Intent(this,EmailActivity.class);
                                 break;
                         }
                         startActivity(intent);
