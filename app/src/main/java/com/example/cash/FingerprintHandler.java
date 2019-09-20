@@ -57,7 +57,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
 
-        this.update("You can now access the app.", true);
+        this.update("You can now access the app. Press back to quit", true);
 
     }
 
@@ -77,7 +77,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
             paraLabel.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
             imageView.setImageResource(R.mipmap.action_done);
 
-                    if(paraLabel.getText().toString().equals("You can now access the app.")){
+                    if(paraLabel.getText().toString().indexOf("You can now access the app.")!=-1){
                         Intent intent = new Intent(context,MainActivity.class);
                         context.startActivity(intent);
                     }
