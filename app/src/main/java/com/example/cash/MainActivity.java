@@ -3,6 +3,7 @@ package com.example.cash;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"file complaint","convert currency"}));
+                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency"}));
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     inputReceived.setText(result.get(0));
                     String dataString = inputReceived.getText().toString().toLowerCase().trim();
@@ -75,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("TTS", "Error in converting Text to Speech!");
                         }
                         switch(dataString){
-                            case "file complaint":
-                                intent=new Intent(this,FileComplaintActivity.class);
+                            case "call helpline":
+                                intent = new Intent(Intent.ACTION_CALL);
+                                intent.setData(Uri.parse("tel:7800191911"));
                                 break;
                             case "convert currency":
                                 intent = new Intent(this,ConvertCurrencyActivity.class);
