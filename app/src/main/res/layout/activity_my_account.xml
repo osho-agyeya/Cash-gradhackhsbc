@@ -11,55 +11,63 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/textHello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="369dp"
+            android:layout_height="150dp"
             android:text="Hello"
+            android:textColor="#0000ff"
+            android:textSize="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.275" />
+            app:layout_constraintVertical_bias="0.027"
+            />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="165dp"
+            android:layout_height="91dp"
             android:onClick="readBalance"
             android:text="Read Balance"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintHorizontal_bias="0.065"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.479" />
+            app:layout_constraintVertical_bias="0.489" />
 
         <TextView
             android:id="@+id/textBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="*****.**"
+            android:layout_width="322dp"
+            android:layout_height="72dp"
             android:onClick="vibeBalance"
+            android:text="*****.**"
+            android:textColor="#0000ff"
+            android:textSize="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintLeft_toLeftOf="parent"
+
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintVertical_bias="0.311"
             tools:ignore="OnClick" />
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="188dp"
+            android:layout_height="87dp"
             android:onClick="vibeBalance"
             android:text="Vibrate Balance"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.863"
+            app:layout_constraintHorizontal_bias="0.909"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.479" />
+            app:layout_constraintVertical_bias="0.496" />
 
         <Button
             android:id="@+id/button3"
@@ -71,15 +79,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.592" />
+            app:layout_constraintVertical_bias="0.606" />
 
         <EditText
             android:id="@+id/amount"
-            android:layout_width="127dp"
-            android:layout_height="51dp"
+            android:layout_width="161dp"
+            android:layout_height="62dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Amount"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.151"
@@ -91,28 +99,28 @@
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deposit"
             android:onClick="deposit"
+            android:text="Deposit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.585"
+            app:layout_constraintHorizontal_bias="0.647"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
+            app:layout_constraintVertical_bias="0.693" />
 
         <Button
             android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:text="Withdraw"
             android:onClick="withdraw"
+            android:text="Withdraw"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.921"
+            app:layout_constraintHorizontal_bias="0.987"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.69" />
+            app:layout_constraintVertical_bias="0.696" />
 
         <TableLayout
             android:id="@+id/tableTrac"
@@ -134,6 +142,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Recent Transactions"
+                android:textColor="#0000ff"
+                android:textSize="25dp"
                 android:id="@+id/textView" />
         </TableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

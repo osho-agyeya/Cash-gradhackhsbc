@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("TTS", "Language Supported.");
                     }
                     Log.i("TTS", "Initialization success.");
+                    int speechStatus= optionChosen.speak("Welcome to your bank account. Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 reed bill", TextToSpeech.QUEUE_FLUSH, null);
+                    if (speechStatus == TextToSpeech.ERROR) {
+                        Log.e("TTS", "Error in converting Text to Speech!");
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
                 }
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency","my account","read bill"}));
+                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency","my account","cash reader"}));
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     inputReceived.setText(result.get(0));
                     String dataString = inputReceived.getText().toString().toLowerCase().trim();
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         switch(dataString){
                             case "call helpline":
                                 intent = new Intent(Intent.ACTION_CALL);
-                                intent.setData(Uri.parse("tel:7800191911"));
+                                intent.setData(Uri.parse("tel:8080435676"));
                                 break;
                             case "convert currency":
                                 intent = new Intent(this,ConvertCurrencyActivity.class);
@@ -86,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                             case "my account":
                                 intent = new Intent(this,MyAccountActivity.class);
                                 break;
-                            case "read bill":
-                                intent = new Intent(this,OCRActivity.class);
+                            case "cash reader":
+                                intent = new Intent(this,CashReaderActivity.class);
                                 break;
                         }
                         startActivity(intent);

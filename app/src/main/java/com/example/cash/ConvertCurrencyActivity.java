@@ -49,6 +49,7 @@ public class ConvertCurrencyActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
                 }
+                optionChosen.speak("  Please give your input in the following format: value Currency 1 to currency 2", TextToSpeech.QUEUE_FLUSH, null);
             }
         });
     }

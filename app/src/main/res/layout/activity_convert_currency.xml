@@ -1,74 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ConvertCurrencyActivity"
-    android:orientation="vertical">
+    >
 
 
+    <ImageView
+        android:id="@+id/display"
+        android:layout_width="391dp"
+        android:layout_height="379dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="-3dp"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginTop="83dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="323dp"
+        android:padding="20dp"
+        android:src="@drawable/converter" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LIST OF SUPPORTED CURRENCIES(Please give input as:[amount][source currency] to  [destination currency]"
-            android:textAlignment="center"
-            android:textSize="25sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
 
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Indian Rupee"
-            android:textAlignment="center"
-            android:textSize="25sp" />
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chinese Yuan"
-                android:textAlignment="center"
-                android:textSize="25sp" />
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hong Kong dollar"
-                android:textAlignment="center"
-                android:textSize="25sp" />
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Polish Zloty"
-                android:textAlignment="center"
-                android:textSize="25sp" />
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Euro"
-                android:textAlignment="center"
-                android:textSize="25sp" />
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="US Dollar"
-                android:textAlignment="center"
-                android:textSize="25sp" />
+        android:layout_alignBottom="@+id/imageViewForMic2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="373dp"
+        android:layout_marginBottom="210dp"
+        android:text="CHINESE YUAN\nINDIAN RUPEE\nHONG KONG DOLLAR\nEURO\nPOLISH ZLOTY\nUS DOLLAR"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -76,25 +47,38 @@
         android:text="Your input comes here"
         android:textAlignment="center"
         android:textSize="25sp"
-        android:id="@+id/currencyInput"/>
+        android:id="@+id/currencyInput"
+        android:visibility="gone"/>
 
     <TextView
+        android:id="@+id/currencyOutput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your output comes here"
         android:textAlignment="center"
         android:textSize="25sp"
-        android:id="@+id/currencyOutput"/>
-
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/imageViewForMic2"
-        android:layout_width="213dp"
-        android:layout_height="178dp"
+        android:layout_width="wrap_content"
+        android:layout_height="314dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="571dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="-3dp"
         android:onClick="getSpeechInput"
-        app:srcCompat="@android:drawable/ic_btn_speak_now"
-        />
+        android:padding="20dp"
+        android:src="@drawable/mic" />
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,58 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Welcome to your bank account!"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:textSize="50sp" />
+    >
 
-    <Button
-        android:layout_marginTop="10dp"
-        android:id="@+id/buttonCashReader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cash Reader" />
-
-    <Button
-        android:id="@+id/buttonAccountStatement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="My Account" />
-
-    <Button
-        android:id="@+id/buttonCallHlepline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Call helpline"
-        />
-
-    <Button
-        android:id="@+id/buttonTextToSpeech"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="OCR Reader(Text to speech)"
-        />
-
-    <Button
-        android:id="@+id/buttonCurrencyConversion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Convert currency"
-        />
 
     <TextView
         android:layout_width="match_parent"
@@ -62,16 +17,101 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textSize="40sp"
+        android:visibility="gone"
+
+
+
         />
 
 
     <ImageView
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="265dp"
+        android:layout_marginLeft="265dp"
+        android:layout_marginTop="265dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="317dp"
+        android:src="@drawable/myaccount" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="265dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="260dp"
+        android:layout_marginRight="260dp"
+        android:layout_marginBottom="612dp"
+        android:src="@drawable/callhelpline" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="303dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="264dp"
+        android:layout_marginEnd="259dp"
+        android:layout_marginRight="259dp"
+        android:layout_marginBottom="316dp"
+        android:src="@drawable/currency_converter" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="264dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="273dp"
+        android:layout_marginLeft="273dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="615dp"
+        android:src="@drawable/cash_reader" />
+
+    <ImageView
         android:id="@+id/imageViewForMic"
-        android:layout_width="213dp"
-        android:layout_height="178dp"
-        android:onClick="getSpeechInput"
+        android:layout_width="wrap_content"
+        android:layout_height="314dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="564dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="getSpeechInput"
+        android:padding="20dp"
+        android:src="@drawable/mic" />
 
 
-</LinearLayout>
+</RelativeLayout>

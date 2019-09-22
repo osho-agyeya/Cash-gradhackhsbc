@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -27,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Locale;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -39,6 +43,9 @@ public class FingerPrintActivity extends AppCompatActivity {
     private TextView mHeadingLabel;
     private ImageView mFingerprintImage;
     private TextView mParaLabel;
+
+    private TextToSpeech tts;
+
 
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
@@ -54,6 +61,27 @@ public class FingerPrintActivity extends AppCompatActivity {
         mHeadingLabel = (TextView) findViewById(R.id.headingLabel);
         mFingerprintImage = (ImageView) findViewById(R.id.fingerprintImage);
         mParaLabel = (TextView) findViewById(R.id.paraLabel);
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int ttsLang = tts.setLanguage(Locale.US);
+                    if (ttsLang == TextToSpeech.LANG_MISSING_DATA
+                            || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "The Language is not supported!");
+                    } else {
+                        Log.i("TTS", "Language Supported.");
+                    }
+                    Log.i("TTS", "Initialization success.");
+
+
+                    tts.speak("Welcome to my bank app! Place your finger on the scanner", TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // Check 1: Android version should be greater or equal to Marshmallow
         // Check 2: Device has Fingerprint Scanner
@@ -84,7 +112,7 @@ public class FingerPrintActivity extends AppCompatActivity {
 
             } else {
 
-                mParaLabel.setText("Place your Finger on Scanner to Access the App.");
+                mParaLabel.setText(("Place your Finger on the Scanner").toUpperCase());
 
                 generateKey();
 
@@ -162,6 +190,15 @@ public class FingerPrintActivity extends AppCompatActivity {
             throw new RuntimeException("Failed to init Cipher", e);
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
     }
 
 
