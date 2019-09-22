@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency","my account"}));
+                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency","my account","read bill"}));
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     inputReceived.setText(result.get(0));
                     String dataString = inputReceived.getText().toString().toLowerCase().trim();
@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "my account":
                                 intent = new Intent(this,MyAccountActivity.class);
+                                break;
+                            case "read bill":
+                                intent = new Intent(this,OCRActivity.class);
                                 break;
                         }
                         startActivity(intent);
