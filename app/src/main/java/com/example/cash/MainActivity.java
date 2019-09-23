@@ -2,9 +2,12 @@ package com.example.cash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("TTS", "Language Supported.");
                     }
                     Log.i("TTS", "Initialization success.");
-                    int speechStatus= optionChosen.speak("Welcome to your bank account. Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 reed bill", TextToSpeech.QUEUE_FLUSH, null);
+                    int speechStatus = optionChosen.speak("Welcome to your bank account. Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 reed bill, 5 cash reader", TextToSpeech.QUEUE_FLUSH, null);
                     if (speechStatus == TextToSpeech.ERROR) {
                         Log.e("TTS", "Error in converting Text to Speech!");
                     }
@@ -68,21 +71,43 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList(new String[]{"call helpline","convert currency","my account","cash reader"}));
+                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList("call helpline", "convert currency", "my account", "cash reader", "read bill"));
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     inputReceived.setText(result.get(0));
                     String dataString = inputReceived.getText().toString().toLowerCase().trim();
                     int speechStatus;
-                    if(allowedOptions.contains(dataString)){
+                    if (allowedOptions.contains(dataString)) {
                         Intent intent = new Intent();
-                        speechStatus= optionChosen.speak(dataString, TextToSpeech.QUEUE_FLUSH, null);
+                        speechStatus = optionChosen.speak(dataString, TextToSpeech.QUEUE_FLUSH, null);
                         if (speechStatus == TextToSpeech.ERROR) {
                             Log.e("TTS", "Error in converting Text to Speech!");
                         }
-                        switch(dataString){
+                        switch (dataString) {
                             case "call helpline":
-                                intent = new Intent(Intent.ACTION_CALL);
-                                intent.setData(Uri.parse("tel:8080435676"));
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(Intent.ACTION_CALL);
+                                        intent.setData(Uri.parse("tel:8080435676"));
+                                        try {
+                                            if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                                // TODO: Consider calling
+                                                //    Activity#requestPermissions
+                                                // here to request the missing permissions, and then overriding
+                                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                //                                          int[] grantResults)
+                                                // to handle the case where the user grants the permission. See the documentation
+                                                // for Activity#requestPermissions for more details.
+                                                return;
+                                            }
+                                            startActivity(intent);
+                                        }catch (IllegalStateException e){
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, 1000);
+
                                 break;
                             case "convert currency":
                                 intent = new Intent(this,ConvertCurrencyActivity.class);
@@ -93,10 +118,15 @@ public class MainActivity extends AppCompatActivity {
                             case "cash reader":
                                 intent = new Intent(this,CashReaderActivity.class);
                                 break;
+
+                            case "read bill":
+                                intent = new Intent(this,OCRActivity.class);
+                                break;
                         }
-                        startActivity(intent);
+                        if(!dataString.equalsIgnoreCase("call helpline"))
+                            {startActivity(intent);}
                     }else{
-                        speechStatus= optionChosen.speak("Please select any one of given options", TextToSpeech.QUEUE_FLUSH, null);
+                        speechStatus= optionChosen.speak("Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 reed bill, 5 cash reader", TextToSpeech.QUEUE_FLUSH, null);
                         if (speechStatus == TextToSpeech.ERROR) {
                             Log.e("TTS", "Error in converting Text to Speech!");
                         }

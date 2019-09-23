@@ -2,10 +2,12 @@ package com.example.cash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MyAccountActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private TextToSpeech tts;
     final String CLIENT_NAME = "Bob";
+    final String sayOptions="Please select one of the following options: 1: reed balance, 2: send statement to email, 3: balance in morse code, 4: deposit [money value], 5:withdraw [money value]";
+
+    private static final int SPEECH_REQUEST_CODE = 0;
     //Button readButton = (Button) findViewById(R.id.button2);
 
     @Override
@@ -54,10 +60,13 @@ public class MyAccountActivity extends AppCompatActivity implements TextToSpeech
         }
 
         init(); //init text to speech
+
+
     }
 
     public void init() {
         tts = new TextToSpeech(this.getApplicationContext(),this);
+
     }
 
     @Override
@@ -73,6 +82,8 @@ public class MyAccountActivity extends AppCompatActivity implements TextToSpeech
             Toast.makeText(this, "Sorry! Text To Speech failed...",
                     Toast.LENGTH_LONG).show();
         }
+        tts.speak(sayOptions,TextToSpeech.QUEUE_FLUSH, null, null);
+
     }
 
     public void readBalance(View view) {
@@ -194,6 +205,7 @@ public class MyAccountActivity extends AppCompatActivity implements TextToSpeech
             Toast.makeText(MyAccountActivity.this, "Sending mail fails",Toast.LENGTH_LONG).show();
         }
     }
+
     public void deposit(View view) {
         EditText amount = (EditText) findViewById(R.id.amount);
         TextView textBalance = (TextView) findViewById(R.id.textBalance);
@@ -243,6 +255,7 @@ public class MyAccountActivity extends AppCompatActivity implements TextToSpeech
             Toast.makeText(MyAccountActivity.this,"Deposit failure!",Toast.LENGTH_LONG).show();
         }
     }
+
     public void withdraw(View view) {
         EditText amount = (EditText) findViewById(R.id.amount);
         TextView textBalance = (TextView) findViewById(R.id.textBalance);
@@ -297,4 +310,165 @@ public class MyAccountActivity extends AppCompatActivity implements TextToSpeech
             Toast.makeText(MyAccountActivity.this,"Withdraw failure!",Toast.LENGTH_LONG).show();
         }
     }
+
+    // Create an intent that can start the Speech Recognizer activity
+    public void displaySpeechRecognizer(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+// Start the activity, the intent will be populated with the speech text
+        startActivityForResult(intent, SPEECH_REQUEST_CODE);
+    }
+
+
+    // This callback is invoked when the Speech Recognizer returns.
+// This is where you process the intent and extract the speech text from the intent.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0).trim().toLowerCase();
+            // Do something with spokenText
+
+            switch(spokenText){
+                case "read balance":
+                    readBalance(null);
+                    break;
+                case "balance in morse code":
+                    vibeBalance(null);
+                    break;
+                case "send statement to email":
+                    sendStateToMail(null);
+                    break;
+                    default:
+                        if(spokenText.contains("deposit") || spokenText.contains("withdraw")){
+                            String amt=spokenText.substring(spokenText.indexOf(" ")+1);
+                            try{
+                                float amtd=Float.parseFloat(amt);
+                                if(spokenText.contains("deposit")){
+                                    depositVoice(amtd);
+                                }else{
+                                    withdrawVoice(amtd);
+                                }
+                            }catch (Exception e){
+                                tts.speak(sayOptions,TextToSpeech.QUEUE_FLUSH, null, null);
+                            }
+                        }else{
+                            tts.speak(sayOptions,TextToSpeech.QUEUE_FLUSH, null, null);
+                        }
+                        break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void depositVoice(float amtd) {
+        TextView textBalance = (TextView) findViewById(R.id.textBalance);
+        TableLayout tl = (TableLayout)findViewById(R.id.tableTrac);
+        int id;
+        String name;
+        Float balance;
+        Float addamount = amtd;
+        MyDBHandler dbHandler = new MyDBHandler(this, null);
+        TranDBHandler trandbHandler = new TranDBHandler(this,null);
+        Clients client = dbHandler.findHandler(CLIENT_NAME);
+        if (client != null) {
+            id = client.getID();
+            name = client.getClientName();
+            balance = client.getBalance();
+        } else {
+            id = 11;
+            name = CLIENT_NAME;
+            balance = new Float(0);
+        }
+        Float newbalance = balance + addamount;
+        boolean result = dbHandler.updateHandler(id, name, newbalance);
+        if (result) {
+            textBalance.setText("$" + newbalance.toString());
+            Toast.makeText(MyAccountActivity.this,"Deposit " + "$" + addamount,Toast.LENGTH_LONG).show();
+
+            int numrow = tl.getChildCount();
+            int tid;
+            if (numrow <= 2) {
+                tid = 1;
+            } else {
+                TableRow lastrow = (TableRow) tl.getChildAt(numrow-1);
+                TextView lasttran = (TextView) lastrow.getChildAt(0);
+                tid = Integer.parseInt(lasttran.getText().toString().substring(0,2).trim())+1;
+            }
+            if (numrow >= 10) {
+                tl.removeViewAt(2);
+            }
+            trandbHandler.addHandler(tid,"Deposit",addamount);
+            TableRow row = new TableRow(this);
+            TextView tv = new TextView(this);
+            tv.setText(tid + " Deposit " + "$" + addamount);
+
+            tl.addView(row);
+            row.addView(tv);
+            tts.speak("Deposited "+amtd+" dollars",TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            Toast.makeText(MyAccountActivity.this,"Deposit failure!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void withdrawVoice(float amtd) {
+        EditText amount = (EditText) findViewById(R.id.amount);
+        TextView textBalance = (TextView) findViewById(R.id.textBalance);
+        TableLayout tl = (TableLayout)findViewById(R.id.tableTrac);
+        int id;
+        String name;
+        Float balance;
+        Float minusamount = amtd;
+        MyDBHandler dbHandler = new MyDBHandler(this, null);
+        TranDBHandler trandbHandler = new TranDBHandler(this,null);
+        Clients client = dbHandler.findHandler(CLIENT_NAME);
+        if (client != null) {
+            id = client.getID();
+            name = client.getClientName();
+            balance = client.getBalance();
+        } else {
+            id = 11;
+            name = CLIENT_NAME;
+            balance = new Float(0);
+        }
+        Float newbalance = balance - minusamount;
+        if (newbalance < 0) {
+            Toast.makeText(MyAccountActivity.this,"Transaction fails!",Toast.LENGTH_LONG).show();
+            return;
+        }
+        boolean result = dbHandler.updateHandler(id, name, newbalance);
+        if (result) {
+            textBalance.setText("$" + newbalance.toString());
+            Toast.makeText(MyAccountActivity.this,"Withdraw " + "$" + minusamount,Toast.LENGTH_LONG).show();
+
+
+            int numrow = tl.getChildCount();
+            int tid;
+            if (numrow <= 2) {
+                tid = 1;
+            } else {
+                TableRow lastrow = (TableRow) tl.getChildAt(numrow-1);
+                TextView lasttran = (TextView) lastrow.getChildAt(0);
+                tid = Integer.parseInt(lasttran.getText().toString().substring(0,2).trim())+1;
+            }
+            if (numrow >= 10) {
+                tl.removeViewAt(2);
+            }
+            trandbHandler.addHandler(tid,"Withdraw",minusamount);
+            TableRow row = new TableRow(this);
+            TextView tv = new TextView(this);
+            tv.setText(tid + " Withdraw " + "$" + minusamount);
+
+            tl.addView(row);
+            row.addView(tv);
+            tts.speak("Withdrew "+amtd+" dollars",TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            Toast.makeText(MyAccountActivity.this,"Withdraw failure!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }

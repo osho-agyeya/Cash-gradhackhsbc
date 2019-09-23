@@ -99,6 +99,7 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         TextView cashtv = (TextView) findViewById(R.id.cashtext);
         textureView = (TextureView) findViewById(R.id.texture);
         init();
+        tts.speak("Place the currency note in front of the camera and click on the screen. Wait for the response.", TextToSpeech.QUEUE_FLUSH, null, null);
         final ArrayList<String> cashres = new ArrayList<>();
         final ArrayList<String> cashres2 = new ArrayList<>();
         assert textureView != null;
