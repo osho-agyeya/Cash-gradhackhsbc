@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
@@ -33,6 +34,7 @@ import android.view.Gravity;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,7 +88,7 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
     private File file;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/form-data");
-    private static final String I2TURL = "https://0654525b.ngrok.io/upload";
+    private static final String I2TURL = "https://5f7ed7e6.ngrok.io/upload";
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
@@ -138,25 +140,10 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
                 }
             }
         });
-        /*
-        while (cashres.size() == 0 && cashres2.size() == 0) {
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) {
-                Log.e(TAG,"error" + e.toString());
-            }
-        }
-        if (cashres.size() > 0) {
-            cashtv.setText(cashres.get(0));
-        } else if (cashres2.size() > 0) {
-            cashtv.setText(cashres2.get(0));
-        }
-
-         */
     }
 
-    public void init() {
-        tts = new TextToSpeech(this.getApplicationContext(),this);
+    public void init() { //check this again
+        tts = new TextToSpeech(getApplicationContext(),this);
     }
 
     @Override
@@ -171,10 +158,13 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
                 toast.show();
             }
         } else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(this, "Sorry! Text To Speech failed...",
+            Toast.makeText(CashReaderActivity.this, "Sorry! Text To Speech failed...",
                     Toast.LENGTH_LONG).show();
         }
     }
+
+
+
 
     public String sendImg() throws Exception {
         String result = "";
@@ -207,6 +197,9 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
                 public void run() {
                     Toast toast = Toast.makeText(CashReaderActivity.this,tresult,Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                    ViewGroup group = (ViewGroup) toast.getView();
+                    TextView messageTextView = (TextView) group.getChildAt(0);
+                    messageTextView.setTextSize(50);
                     toast.show();
                 }
             });
@@ -218,6 +211,9 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
         return result;
     }
+
+
+
 
     public void copy(File src, File dst) throws IOException {
         try (InputStream in = new FileInputStream(src)) {
@@ -231,6 +227,8 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             }
         }
     }
+
+
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
@@ -251,6 +249,10 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     };
 
+
+
+
+
     private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
@@ -270,6 +272,9 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     };
 
+
+
+
     final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
@@ -279,11 +284,19 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     };
 
+
+
+
+
     protected void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
+
+
+
+
 
     protected void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
@@ -295,6 +308,10 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             e.printStackTrace();
         }
     }
+
+
+
+
 
     protected boolean takePicture() {
         if(null == cameraDevice) {
@@ -388,6 +405,11 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         return true;
     }
 
+
+
+
+
+
     protected void createCameraPreview() {
         try {
             SurfaceTexture texture = textureView.getSurfaceTexture();
@@ -417,6 +439,10 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     }
 
+
+
+
+
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         Log.e(TAG, "is camera open");
@@ -427,7 +453,7 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             assert map != null;
             imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
             // Add permission for camera and let user grant the permission
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(CashReaderActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(CashReaderActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
                 return;
             }
@@ -437,6 +463,11 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
         Log.e(TAG, "openCamera X");
     }
+
+
+
+
+
 
     protected void updatePreview() {
         if(null == cameraDevice) {
@@ -449,6 +480,11 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             e.printStackTrace();
         }
     }
+
+
+
+
+
     private void closeCamera() {
         if (null != cameraDevice) {
             cameraDevice.close();
@@ -460,6 +496,9 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     }
 
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
@@ -470,6 +509,11 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             }
         }
     }
+
+
+
+
+    //no change needed
     @Override
     protected void onResume() {
         super.onResume();
@@ -482,6 +526,10 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
         }
     }
 
+
+
+
+    // no change needed
     @Override
     protected void onPause() {
         Log.e(TAG, "onPause");
