@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView inputReceived;
     private TextToSpeech optionChosen;
+    private int backButtonCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("TTS", "Language Supported.");
                     }
                     Log.i("TTS", "Initialization success.");
-                    int speechStatus = optionChosen.speak("Welcome to your bank account. Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 reed bill, 5 cash reader", TextToSpeech.QUEUE_FLUSH, null);
+                    int speechStatus = optionChosen.speak("Welcome to your bank account. Choose one of the following options. 1 call helpline, 2 convert currency, 3 my account, 4 live text extractor, 5 cash reader", TextToSpeech.QUEUE_FLUSH, null);
                     if (speechStatus == TextToSpeech.ERROR) {
                         Log.e("TTS", "Error in converting Text to Speech!");
                     }
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
-                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList("call helpline", "convert currency", "my account", "cash reader", "read bill"));
+                    ArrayList<String> allowedOptions = new ArrayList<String>(Arrays.asList("call helpline", "convert currency", "my account", "cash reader", "live text extractor"));
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     inputReceived.setText(result.get(0));
                     String dataString = inputReceived.getText().toString().toLowerCase().trim();
@@ -119,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(this,CashReaderActivity.class);
                                 break;
 
-                            case "read bill":
-                                intent = new Intent(this,OCRActivity.class);
+                            case "live text extractor":
+                                intent = new Intent(this,OcrCaptureActivity.class);
                                 break;
                         }
                         if(!dataString.equalsIgnoreCase("call helpline"))
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("TTS", "Error in converting Text to Speech!");
                         }
                     }
+                    backButtonCount=0;
                 }
                 break;
         }
@@ -142,6 +144,33 @@ public class MainActivity extends AppCompatActivity {
         if (optionChosen != null) {
             optionChosen.stop();
             optionChosen.shutdown();
+        }
+    }
+
+    /**
+     * Back button listener.
+     * Will close the application if the back button pressed twice.
+     */
+    @Override
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {/*
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            */
+            //finish();
+            //android.os.Process.killProcess(android.os.Process.myPid());
+            finish();
+            //moveTaskToBack(true);
+        }
+        else
+        {
+            optionChosen.speak("Press back once more to quit the app", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
         }
     }
 }
