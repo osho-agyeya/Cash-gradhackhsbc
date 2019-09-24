@@ -162,6 +162,8 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
             Toast.makeText(CashReaderActivity.this, "Sorry! Text To Speech failed...",
                     Toast.LENGTH_LONG).show();
         }
+        tts.speak("Please hold a 10, 20, 50, 100 or 500 rupee note in front of the camera. Touch the screen to identify it.",TextToSpeech.QUEUE_FLUSH, null, null);
+
     }
 
 
