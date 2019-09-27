@@ -48,6 +48,40 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("TTS", "Error in converting Text to Speech!");
                     }
                 } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
                 }
             }

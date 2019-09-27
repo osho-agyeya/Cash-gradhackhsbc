@@ -88,7 +88,7 @@ public class CashReaderActivity extends AppCompatActivity implements TextToSpeec
     private File file;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/form-data");
-    private static final String I2TURL = "https://ff4e6115.ngrok.io/upload";
+    private static final String I2TURL = "https://773f8511.ngrok.io/upload";
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
