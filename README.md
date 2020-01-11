@@ -8,5 +8,5 @@ Clone the repository. Go to project-website folder,install all the python librar
 
 ![](/display/fingerprint.jpeg) ![](/display/home.jpeg)
 ![](/display/account.jpeg) 
-![]("/display/currency_convertor.jpeg")
-![]("/display/text_extractor.jpeg")
+![](/display/currency_convertor.jpeg)
+![](/display/text_extractor.jpeg)
